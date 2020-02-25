@@ -1,5 +1,6 @@
 
-![deepMUSE](https://cloud.githubusercontent.com/assets/9053987/16575656/901989da-424f-11e6-9f54-6a04199e69f5.png)
+<!-- ![deepMUSE](https://cloud.githubusercontent.com/assets/9053987/16575656/901989da-424f-11e6-9f54-6a04199e69f5.png) -->
+# deepMUSE
 
 ### Using Keras & Theano for deep learning driven music generation
 
@@ -8,7 +9,7 @@ I built **deepMUSE** over the weekend at a hackathon. It uses Keras & Theano, tw
 ### Dependencies
 
 * [Keras](http://keras.io/#installation)
-* [Theano](http://deeplearning.net/software/theano/install.html#bleeding-edge-install-instructions) ("bleeding-edge" version on GitHub)
+* [Theano](http://deeplearning.net/software/theano/install.html#bleeding-edge-install-instructions)
 * [music21](http://web.mit.edu/music21/doc/installing/index.html)
 
 ### Instructions

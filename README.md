@@ -4,7 +4,7 @@
 
 ### Using Keras & Theano for deep learning driven music generation
 
-I built **deepMUSE** over the weekend at a hackathon. It uses Keras & Theano, two deep learning libraries, to generate music. Specifically, it builds a two-layer [LSTM](http://deeplearning.net/tutorial/lstm.html), learning from the given MIDI file.
+I built **deepMUSE** over the weekend after checking out a [similar project](https://github.com/jisungk/deepjazz). It uses Keras & Theano, two deep learning libraries, to generate music. Specifically, it builds a two-layer [LSTM](http://deeplearning.net/tutorial/lstm.html), learning from the given MIDI file.
 
 ### Dependencies
 

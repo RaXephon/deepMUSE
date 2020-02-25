@@ -21,13 +21,22 @@ def __parse_midi(data_fn):
     # Parse the MIDI data for separate melody and accompaniment parts.
     midi_data = converter.parse(data_fn)
     # Get melody part, compress into single voice.
-    melody_stream = midi_data[0]     # For Metheny piece, Melody is Part #5.
+    melody_stream = midi_data[1]     # For Metheny piece, Melody is Part #5.
     print("---------------------------------------")
+    for x in midi_data:
+        for y in x:
+            print(y)
+        print("------------------")
     for x in melody_stream.getElementsByClass(stream.Voice):
-        print(x)
-    melody1, melody2 = melody_stream.getElementsByClass(stream.Voice)[:2]
-    for j in melody2:
-        melody1.insert(j.offset, j)
+        print(x, "------")
+    # melody1, melody2 = melody_stream.getElementsByClass(stream.Voice)[:2]
+    # for j in melody2:
+    #     melody1.insert(j.offset, j)
+    # melody_voice = melody1
+    melody1 = melody_stream.getElementsByClass(stream.Voice)[0]
+    for m in melody_stream.getElementsByClass(stream.Voice)[1:]:
+        for j in m:
+            melody1.insert(j.offset, j)
     melody_voice = melody1
 
     for i in melody_voice:
@@ -77,11 +86,11 @@ def __parse_midi(data_fn):
     for x in solo_stream:
         for y in x:
             print("->", y)
-        print("------------------------" + str(len(solo_stream)))
+        print("------------------------" + str(len(solo_stream)) + " " + str(len(x)))
     # Group by measure so you can classify. 
     # Note that measure 0 is for the time signature, metronome, etc. which have
     # an offset of 0.0.
-    melody_stream = solo_stream[-3]
+    melody_stream = solo_stream[5] #4 -> 19
     measures = OrderedDict()
     offsetTuples = [(int(n.offset / 4), n) for n in melody_stream]
     measureNum = 0 # for now, don't use real m. nums (119, 120)
@@ -91,7 +100,7 @@ def __parse_midi(data_fn):
 
     # Get the stream of chords.
     # offsetTuples_chords: group chords by measure number.
-    chordStream = solo_stream[1]
+    chordStream = solo_stream[2]
     chordStream.removeByClass(note.Rest)
     chordStream.removeByClass(note.Note)
     offsetTuples_chords = [(int(n.offset / 4), n) for n in chordStream]
@@ -113,8 +122,14 @@ def __parse_midi(data_fn):
     #           the same key (Ab) so could actually just cut out last measure to loop.
     #           Decided: just cut out the last measure. 
     # del chords[len(chords) - 1]
-    for i in range(len(measures) - len(chords)):
-        del measures[len(measures) - 1]
+    if len(measures) > len(chords):
+        for i in range(len(measures) - len(chords)):
+            del measures[len(measures) - 1]
+    # elif len(measures) < len(chords):
+    #     for i in range(len(chords) - len(measures)):
+    #         del chords[len(chords) - 1]
+    for x in chords:
+        print(x)
     print(len(chords), len(measures))
     assert len(chords) == len(measures)
 

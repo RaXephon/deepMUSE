@@ -5,7 +5,7 @@
 *.h5
 *svg/
 mp3/
-deepjazz_on*.midi
+deepjazz_*.midi
 *_old*
 _private/
 _misc/

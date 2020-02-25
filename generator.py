@@ -1,10 +1,7 @@
 '''
-Author:     Ji-Sung Kim
-Project:    deepjazz
+Author:     Shashwat Kapoor
+Project:    deepMUSE
 Purpose:    Generate jazz using a deep learning model (LSTM in deepjazz).
-
-Some code adapted from Evan Chow's jazzml, https://github.com/evancchow/jazzml 
-with express permission.
 
 Code was built while significantly referencing public examples from the
 Keras documentation on GitHub:

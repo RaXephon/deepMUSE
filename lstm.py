@@ -1,6 +1,6 @@
 '''
-Author:     Ji-Sung Kim
-Project:    deepjazz
+Author:     Shashwat Kapoor
+Project:    deepMUSE
 Purpose:    Builds an LSTM, a type of recurrent neural network (RNN). 
 
 Code was built while significantly referencing public examples from the

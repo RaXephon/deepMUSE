@@ -1,10 +1,7 @@
 '''
-Author:     Ji-Sung Kim, Evan Chow
-Project:    deepjazz
+Author:     Shashwat Kapoor
+Project:    deepMUSE
 Purpose:    Provide pruning and cleanup functions.
-
-Code adapted from Evan Chow's jazzml, https://github.com/evancchow/jazzml 
-with express permission.
 '''
 from itertools import zip_longest
 import random

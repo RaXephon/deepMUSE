@@ -28,7 +28,7 @@ Note: `preprocess.py` must be modified to work with other MIDI files (the releva
 ### Author
 
 [Shashwat Kapoor](raxephon.github.io)  
-University of Maryland, College Park
+University of Maryland, College Park 
 shashkap (at) umd.edu
 
 ### Citations

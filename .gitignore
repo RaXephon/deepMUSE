@@ -1,6 +1,6 @@
 # project files
 .DS_Store
-*.txt
+# *.txt
 *.json
 *.h5
 *svg/

@@ -20,10 +20,10 @@ def __parse_midi(data_fn):
     # Get melody part, compress into single voice.
     melody_stream = midi_data[1]     # For Metheny piece, Melody is Part #5.
     print("---------------------------------------")
-    for x in midi_data:
-        for y in x:
-            print(y)
-        print("------------------")
+    # for x in midi_data:
+    #     for y in x:
+    #         print(y)
+    #     print("------------------")
     for x in melody_stream.getElementsByClass(stream.Voice):
         print(x, "------")
     # melody1, melody2 = melody_stream.getElementsByClass(stream.Voice)[:2]
@@ -76,7 +76,7 @@ def __parse_midi(data_fn):
         curr_part.append(part.getElementsByClass(tempo.MetronomeMark))
         curr_part.append(part.getElementsByClass(key.KeySignature))
         curr_part.append(part.getElementsByClass(meter.TimeSignature))
-        curr_part.append(part.getElementsByOffset(476, 548, 
+        curr_part.append(part.getElementsByOffset(400, 600, 
                                                   includeEndBoundary=True))
         cp = curr_part.flat
         solo_stream.insert(cp)
@@ -87,7 +87,7 @@ def __parse_midi(data_fn):
     # Group by measure so you can classify. 
     # Note that measure 0 is for the time signature, metronome, etc. which have
     # an offset of 0.0.
-    melody_stream = solo_stream[5] #4 -> 19
+    melody_stream = solo_stream[2] #4 -> 19
     measures = OrderedDict()
     offsetTuples = [(int(n.offset / 4), n) for n in melody_stream]
     measureNum = 0 # for now, don't use real m. nums (119, 120)
@@ -122,11 +122,9 @@ def __parse_midi(data_fn):
     if len(measures) > len(chords):
         for i in range(len(measures) - len(chords)):
             del measures[len(measures) - 1]
-    # elif len(measures) < len(chords):
-    #     for i in range(len(chords) - len(measures)):
-    #         del chords[len(chords) - 1]
-    for x in chords:
-        print(x)
+    elif len(measures) < len(chords):
+        for i in range(len(chords) - len(measures)):
+            del chords[len(chords) - 1]
     print(len(chords), len(measures))
     assert len(chords) == len(measures)
 

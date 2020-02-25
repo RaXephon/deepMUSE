@@ -123,9 +123,16 @@ def parse_melody(fullMeasureNotes, fullMeasureChords):
     # Remove extraneous elements.x
     measure = copy.deepcopy(fullMeasureNotes)
     chords = copy.deepcopy(fullMeasureChords)
+    measure.append(note.Note('G'))
+    measure.append(note.Note('E'))
+    for x in measure:
+        print(x, "---")
+    print("-----------")
+    for x in chords:
+        print(x, "---")
     measure.removeByNotOfClass([note.Note, note.Rest])
     chords.removeByNotOfClass([chord.Chord])
-
+    
     # Information for the start of the measure.
     # 1) measureStartTime: the offset for measure's start, e.g. 476.0.
     # 2) measureStartOffset: how long from the measure start to the first element.

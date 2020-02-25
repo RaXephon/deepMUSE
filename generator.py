@@ -178,8 +178,8 @@ def main(args):
         N_epochs = 128 # default
 
     # i/o settings
-    data_fn = 'midi/' + 'jojo.mid'#'''Knockin On Heaven's Door.mid''' # 'And Then I Knew' by Pat Metheny 'original_metheny.mid'
-    out_fn = 'midi/' 'deepjazz_jojo...' + str(N_epochs)
+    data_fn = 'midi/' + 'again.mid'#'''Knockin On Heaven's Door.mid''' # 'And Then I Knew' by Pat Metheny 'original_metheny.mid'
+    out_fn = 'midi/' 'deepjazz_again...' + str(N_epochs)
     if (N_epochs == 1): out_fn += '_epoch.midi'
     else:               out_fn += '_epochs.midi'
 

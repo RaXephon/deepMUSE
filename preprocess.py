@@ -18,7 +18,7 @@ def __parse_midi(data_fn):
     # Parse the MIDI data for separate melody and accompaniment parts.
     midi_data = converter.parse(data_fn)
     # Get melody part, compress into single voice.
-    melody_stream = midi_data[1]     # For Metheny piece, Melody is Part #5.
+    melody_stream = midi_data[0]    # For Metheny piece, Melody is Part #5.
     print("---------------------------------------")
     # for x in midi_data:
     #     for y in x:
@@ -34,6 +34,9 @@ def __parse_midi(data_fn):
     for m in melody_stream.getElementsByClass(stream.Voice)[1:]:
         for j in m:
             melody1.insert(j.offset, j)
+    # for j in melody1:
+    #     j = copy.deepcopy(j)
+    #     melody1.insert(j.offset, j)
     melody_voice = melody1
 
     for i in melody_voice:
@@ -76,28 +79,31 @@ def __parse_midi(data_fn):
         curr_part.append(part.getElementsByClass(tempo.MetronomeMark))
         curr_part.append(part.getElementsByClass(key.KeySignature))
         curr_part.append(part.getElementsByClass(meter.TimeSignature))
-        curr_part.append(part.getElementsByOffset(400, 600, 
+        curr_part.append(part.getElementsByOffset(350, 650, 
                                                   includeEndBoundary=True))
         cp = curr_part.flat
         solo_stream.insert(cp)
     for x in solo_stream:
         for y in x:
             print("->", y)
-        print("------------------------" + str(len(solo_stream)) + " " + str(len(x)))
+        print("------------------------ " + str(len(solo_stream)) + " " + str(len(x)))
     # Group by measure so you can classify. 
     # Note that measure 0 is for the time signature, metronome, etc. which have
     # an offset of 0.0.
-    melody_stream = solo_stream[2] #4 -> 19
+    melody_stream = solo_stream[-1] #4 -> 19
     measures = OrderedDict()
     offsetTuples = [(int(n.offset / 4), n) for n in melody_stream]
     measureNum = 0 # for now, don't use real m. nums (119, 120)
     for key_x, group in groupby(offsetTuples, lambda x: x[0]):
         measures[measureNum] = [n[1] for n in group]
         measureNum += 1
-
+    
+    for m in measures:
+        print(m, "---")
+    
     # Get the stream of chords.
     # offsetTuples_chords: group chords by measure number.
-    chordStream = solo_stream[2]
+    chordStream = solo_stream[0]
     chordStream.removeByClass(note.Rest)
     chordStream.removeByClass(note.Note)
     offsetTuples_chords = [(int(n.offset / 4), n) for n in chordStream]
@@ -111,6 +117,10 @@ def __parse_midi(data_fn):
         chords[measureNum] = [n[1] for n in group]
         measureNum += 1
 
+    print("---------------")
+    for c in chords:
+        print(c, "---")
+
     # Fix for the below problem.
     #   1) Find out why len(measures) != len(chords).
     #   ANSWER: resolves at end but melody ends 1/16 before last measure so doesn't
@@ -118,6 +128,7 @@ def __parse_midi(data_fn):
     #           Actually on second thought: melody/comp start on Ab, and resolve to
     #           the same key (Ab) so could actually just cut out last measure to loop.
     #           Decided: just cut out the last measure. 
+    
     # del chords[len(chords) - 1]
     if len(measures) > len(chords):
         for i in range(len(measures) - len(chords)):

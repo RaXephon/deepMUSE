@@ -124,12 +124,7 @@ def parse_melody(fullMeasureNotes, fullMeasureChords):
     measure = copy.deepcopy(fullMeasureNotes)
     chords = copy.deepcopy(fullMeasureChords)
     measure.append(note.Note('G'))
-    measure.append(note.Note('E'))
-    for x in measure:
-        print(x, "---")
-    print("-----------")
-    for x in chords:
-        print(x, "---")
+    # measure.append(note.Note('E'))
     measure.removeByNotOfClass([note.Note, note.Rest])
     chords.removeByNotOfClass([chord.Chord])
     

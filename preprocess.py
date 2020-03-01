@@ -18,12 +18,7 @@ def __parse_midi(data_fn):
     # Parse the MIDI data for separate melody and accompaniment parts.
     midi_data = converter.parse(data_fn)
     # Get melody part, compress into single voice.
-    melody_stream = midi_data[0]    # For Metheny piece, Melody is Part #5.
-    print("---------------------------------------")
-    # for x in midi_data:
-    #     for y in x:
-    #         print(y)
-    #     print("------------------")
+    melody_stream = midi_data[1]    # For Metheny piece, Melody is Part #5.
     for x in melody_stream.getElementsByClass(stream.Voice):
         print(x, "------")
     # melody1, melody2 = melody_stream.getElementsByClass(stream.Voice)[:2]
@@ -47,6 +42,8 @@ def __parse_midi(data_fn):
     # Also add Electric Guitar. 
     melody_voice.insert(0, instrument.ElectricGuitar())
     melody_voice.insert(0, key.KeySignature(sharps=1))
+    ######## ALSO ADD ElectricBass & Drums & KeyboardInstrument
+
 
     # The accompaniment parts. Take only the best subset of parts from
     # the original data. Maybe add more parts, hand-add valid instruments.
@@ -90,7 +87,7 @@ def __parse_midi(data_fn):
     # Group by measure so you can classify. 
     # Note that measure 0 is for the time signature, metronome, etc. which have
     # an offset of 0.0.
-    melody_stream = solo_stream[-1] #4 -> 19
+    melody_stream = solo_stream[1] #4 -> 19
     measures = OrderedDict()
     offsetTuples = [(int(n.offset / 4), n) for n in melody_stream]
     measureNum = 0 # for now, don't use real m. nums (119, 120)
@@ -103,7 +100,7 @@ def __parse_midi(data_fn):
     
     # Get the stream of chords.
     # offsetTuples_chords: group chords by measure number.
-    chordStream = solo_stream[0]
+    chordStream = solo_stream[2]
     chordStream.removeByClass(note.Rest)
     chordStream.removeByClass(note.Note)
     offsetTuples_chords = [(int(n.offset / 4), n) for n in chordStream]
@@ -116,10 +113,6 @@ def __parse_midi(data_fn):
     for key_x, group in groupby(offsetTuples_chords, lambda x: x[0]):
         chords[measureNum] = [n[1] for n in group]
         measureNum += 1
-
-    print("---------------")
-    for c in chords:
-        print(c, "---")
 
     # Fix for the below problem.
     #   1) Find out why len(measures) != len(chords).
@@ -148,6 +141,7 @@ def __get_abstract_grammars(measures, chords):
     for ix in range(1, len(measures)):
         m = stream.Voice()
         for i in measures[ix]:
+            # if i not in m:
             m.insert(i.offset, i)
         c = stream.Voice()
         for j in chords[ix]:
@@ -169,6 +163,7 @@ def get_musical_data(data_fn):
 ''' Get corpus data from grammatical data '''
 def get_corpus_data(abstract_grammars):
     corpus = [x for sublist in abstract_grammars for x in sublist.split(' ')]
+    print(corpus)
     values = set(corpus)
     val_indices = dict((v, i) for i, v in enumerate(values))
     indices_val = dict((i, v) for i, v in enumerate(values))
